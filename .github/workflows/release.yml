@@ -38,10 +38,10 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # This token is provided by Actions, you do not need to create your own token
         with:
-          tag_name: v${{ steps.create_version.outputs.newVersion }}
-          release_name: Release v${{ steps.create_version.outputs.newVersion }}
+          tag_name: v${{ steps.create_version.outputs.newversion }}
+          release_name: Release v${{ steps.create_version.outputs.newversion }}
           body: |
-            Release of v${{ steps.create_version.outputs.newVersion }}
+            Release of v${{ steps.create_version.outputs.newversion }}
           draft: false
           prerelease: false
       - name: Upload Release Asset
