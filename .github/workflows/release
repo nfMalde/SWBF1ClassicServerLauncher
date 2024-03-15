@@ -5,9 +5,7 @@ name: CI
 # Controls when the workflow will run
 on:
   push:
-    # Sequence of patterns matched against refs/tags
-    tags:
-      - 'v*' # Push events to matching v*, i.e. v1.0, v20.15.10
+    branches: ["main"] 
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
@@ -20,21 +18,24 @@ jobs:
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v3
-      
+      - name: Create Version
+        id: create_version
+        shell: pwsh
+        run: .\.scripts\createVersion.ps1"
       # Runs a single command using the runners shell
       - name: Create Release Package
         shell: pwsh
-        run: .\.scripts\createRelease.ps1 -version "${{ github.ref }}" -outputFolder .\release
+        run: .\.scripts\createRelease.ps1 -version "${{ create_version.ouputs.newVersion }}" -outputFolder .\release
       - name: Create Release
         id: create_release
         uses: actions/create-release@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # This token is provided by Actions, you do not need to create your own token
         with:
-          tag_name: ${{ github.ref }}
-          release_name: Release ${{ github.ref }}
+          tag_name: v${{ create_version.ouputs.newVersion }}
+          release_name: Release ${{ create_version.ouputs.newVersion }}
           body: |
-            Changes in this Release
+            Changes in this Release v${{ create_version.ouputs.newVersion }}
             - First Change
             - Second Change
           draft: false
