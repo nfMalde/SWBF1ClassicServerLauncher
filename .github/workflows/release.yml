@@ -22,20 +22,21 @@ jobs:
         id: create_version
         shell: pwsh
         run: .\.scripts\createVersion.ps1"
+
       # Runs a single command using the runners shell
       - name: Create Release Package
         shell: pwsh
-        run: .\.scripts\createRelease.ps1 -version "${{ create_version.ouputs.newVersion }}" -outputFolder .\release
+        run: .\.scripts\createRelease.ps1 -version "${{ steps.create_version.ouputs.newVersion }}" -outputFolder .\release
       - name: Create Release
         id: create_release
         uses: actions/create-release@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # This token is provided by Actions, you do not need to create your own token
         with:
-          tag_name: v${{ create_version.ouputs.newVersion }}
-          release_name: Release ${{ create_version.ouputs.newVersion }}
+          tag_name: v${{ steps.create_version.ouputs.newVersion }}
+          release_name: Release ${{ steps.create_version.ouputs.newVersion }}
           body: |
-            Changes in this Release v${{ create_version.ouputs.newVersion }}
+            Changes in this Release v${{ steps.create_version.ouputs.newVersion }}
             - First Change
             - Second Change
           draft: false
