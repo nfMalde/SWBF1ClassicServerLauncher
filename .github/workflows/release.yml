@@ -28,9 +28,10 @@ jobs:
 
       # Runs a single command using the runners shell
       - name: Create Release Package
-         
+        env:
+          VERSION: ${{ steps.create_version.outputs.newVersion }}
         shell: pwsh
-        run: .\.scripts\createRelease.ps1 -version "${{ steps.create_version.outputs.newVersion }}" -outputFolder .\release
+        run: .\.scripts\createRelease.ps1 -version $env:Version -outputFolder .\release
       - name: Create Release
         id: create_release
         uses: actions/create-release@v1
