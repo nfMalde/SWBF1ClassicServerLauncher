@@ -32,21 +32,22 @@ jobs:
           VERSION: ${{ steps.create_version.outputs.newversion }}
         shell: pwsh
         run: .\.scripts\createRelease.ps1 -version "${{ steps.create_version.outputs.newversion }}" -outputFolder .\release
-      - name: Create Release
+      - name: Create Release and Tag
         id: create_release
-        uses: actions/create-release@v1
+        uses: actions/create-release@latest
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # This token is provided by Actions, you do not need to create your own token
+            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # This token is provided by Actions, you do not need to create your own token
         with:
-          tag_name: v${{ steps.create_version.outputs.newversion }}
-          release_name: Release v${{ steps.create_version.outputs.newversion }}
+          tag_name: v${{ steps.create_version.outputs.newversion  }}
+          release_name: Release v${{ steps.create_version.outputs.newversion  }}
           body: |
-            Release of v${{ steps.create_version.outputs.newversion }}
+            Release of v${{ steps.create_version.outputs.newversion  }}
           draft: false
-          prerelease: false
+          prerelease: false   
+      
       - name: Upload Release Asset
         id: upload-release-asset 
-        uses: actions/upload-release-asset@v1
+        uses: actions/upload-release-asset@latest
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
