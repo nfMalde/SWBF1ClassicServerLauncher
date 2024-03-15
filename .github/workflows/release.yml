@@ -21,7 +21,7 @@ jobs:
       - name: Create Version
         id: create_version
         shell: pwsh
-        run: .\.scripts\createVersion.ps1"
+        run: .\.scripts\createVersion.ps1
 
       # Runs a single command using the runners shell
       - name: Create Release Package
