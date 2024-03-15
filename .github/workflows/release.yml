@@ -18,27 +18,45 @@ jobs:
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+          fetch-tags: true
       - name: Create Version
         id: create_version
         shell: pwsh
-        run: .\.scripts\createVersion.ps1
+        run: |
+          $tags = git tag -l
+          # Filter tags matching the pattern "vX.Y"
+          $filteredTags = $tags -match '^v\d+\.\d+'
+          
+          # Sort the filtered tags in version order
+          $sortedTags = $filteredTags | Sort-Object { [Version]$_.TrimStart("v") } -Descending
+          $highestTag  = "v1.0.0"
+          if ($sortedTags) {
+              # Select the highest tag
+              $highestTag = $sortedTags[0]
+          
+          }
+          
+          Write-Host "newVersion=$($highestTag.TrimStart("v"))" | Out-File -FilePath $Env:GITHUB_OUTPUT -Encoding utf8 -Append
 
       # Runs a single command using the runners shell
       - name: Create Release Package
+        env:
+          NEW_VERSION: ${{ steps.create_version.ouputs.newVersion }}
         shell: pwsh
-        run: .\.scripts\createRelease.ps1 -version "${{ steps.create_version.ouputs.newVersion }}" -outputFolder .\release
+        run: .\.scripts\createRelease.ps1 -version  $env:NEW_VERSION -outputFolder .\release
       - name: Create Release
         id: create_release
         uses: actions/create-release@v1
         env:
+          NEW_VERSION: ${{ steps.create_version.ouputs.newVersion }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # This token is provided by Actions, you do not need to create your own token
         with:
-          tag_name: v${{ steps.create_version.ouputs.newVersion }}
-          release_name: Release ${{ steps.create_version.ouputs.newVersion }}
+          tag_name: v${{ env.NEW_VERSION }}
+          release_name: Release v${{ env.NEW_VERSION }}
           body: |
-            Changes in this Release v${{ steps.create_version.ouputs.newVersion }}
-            - First Change
-            - Second Change
+            Changes in this Release v${{ env.NEW_VERSION }}
           draft: false
           prerelease: false
       - name: Upload Release Asset
