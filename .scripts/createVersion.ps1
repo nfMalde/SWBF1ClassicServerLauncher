@@ -20,7 +20,6 @@ if ($sortedTags) {
     $highestTag = "$($major).$($minor).$($rev)"  
 }
 
-
-Write-Host "newVersion=$($highestTag)"
-#Write-Host "newVersion=$($highestTag)" | Out-File -FilePath $Env:GITHUB_OUTPUT -Encoding utf8 -Append
+ 
+Write-Host "newVersion=$($highestTag)" | Out-File -FilePath $Env:GITHUB_OUTPUT -Encoding utf8 -Append
 
