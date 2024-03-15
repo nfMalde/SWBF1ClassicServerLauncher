@@ -1,0 +1,52 @@
+{
+    "steamFolder": "C:\\Gaming\\Steam",
+    "additionalMapTranslations": {
+        "classic": {
+            "test1": "test1 map" 
+        },
+        "classicCollection": {}
+    },
+    "gameConfigs": {
+        "classic": {
+            "gameFolderSuffix": "Star Wars Battlefront (Classic 2004)\\GameData",
+            "executable": "Battlefront.exe",
+            "appID": "1058020"
+        },
+        "classicCollection": {
+            "gameFolderSuffix": "Battle",
+            "executable": "Battlefront.exe",
+            "defaultArguments": "/bf1",
+            "appID": "2446550"
+        }
+    },
+    "launchOptions": {
+        "recoverAfterSeconds": 5,
+        "game": "classic",
+        "discord": {
+            "enabled": false,
+            "token": "YOUR_DISCORD_BOT_TOKEN",
+            "channelID": "YOUR_CHANNEL_ID",
+            "announcements": {
+                "serverCrash": true,
+                "serverRestart": true,
+                "configChange": true
+            },
+            "textTemplates": {
+                "serverCrash": "Server  `{serverName}` crashed will recover it in {recoverSeconds} seconds.",
+                "serverRecovered": "Server `{serverName}` recovered from crash.",
+                "serverRestart": "Server `{serverName}`  will restart in exact {minutesTillRestart} Minutes (@{restartTime} {timeZone})!",
+                "serverRestartingNow": "Server `{serverName}` will restart **now**. Please be patient as the server can be unavailable for a few minutes!",
+                "configChange": "Server `{serverName}` config has been changed: \r\n\r\n{changes} \r\nChanges apply at next restart."
+            },
+            "changeDetection": {
+                "maps": true,
+                "arguments": true
+            }
+        },
+        "autoRestart": {
+            "enabled": true,
+            "restartTime": "15:52",
+            "timeZone": "CET"
+        }
+    }
+}
