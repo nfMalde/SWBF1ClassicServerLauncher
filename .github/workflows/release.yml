@@ -35,7 +35,7 @@ jobs:
       - name: Get-Changes
         id: get_changes
         shell: pwsh
-        run: .\.scripts\getChanges.ps1 -version "${{ steps.create_version.outputs.newversion }}" -changelogFile .\CHANGELOG.md
+        run: .\.scripts\parseChanges.ps1 -version "v${{ steps.create_version.outputs.newversion }}" -changelogFile .\CHANGELOG.md
       - name: Create Release and Tag
         id: create_release
         uses: actions/create-release@latest
