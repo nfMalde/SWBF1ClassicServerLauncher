@@ -47,7 +47,7 @@ jobs:
           body: |
             # Release of v${{ steps.create_version.outputs.newversion  }} 
             ## Changes
-            ${{ steps.get_changes.outputs.changes }}
+            ${{ fromJSON(steps.get_changes.outputs.changes) }}
           draft: false
           prerelease: false   
       
