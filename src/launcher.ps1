@@ -443,7 +443,6 @@ while ($true) {
         if ($true -eq $doRecover) {
             Start-Process -FilePath $serverExe  -ArgumentList $serverParams
             $message = $textTemplates.serverRecovered -replace "{serverName}", $serverName
-            Send-DiscordMessage -message $message
 
             if ($configFile.launchOptions.discord.announcements.serverCrash -eq $true) {
                 Send-DiscordMessage -message $message
