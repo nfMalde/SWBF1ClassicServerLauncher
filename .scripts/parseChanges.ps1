@@ -12,5 +12,5 @@ if ($changelog -match $regex) {
     $changes = $matches[1].Trim()
     
 } 
-
-Write-Output "changes=$($changes)" >> $Env:GITHUB_OUTPUT
+Write-Output "changes=$($changes.Trim().Replace("`t", '') | ConvertTo-Json)" >> $Env:GITHUB_OUTPUT
+ 
