@@ -1,4 +1,6 @@
 ## Changelog
+### v1.0.2
+* Fixed duplicated discord messages for server recovery
 
 ### v1.0.1
 * Added new option for discord: `webhookUrl` since token and channelID is not used. Follow the new readme for more info.
