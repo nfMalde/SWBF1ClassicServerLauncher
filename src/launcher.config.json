@@ -24,8 +24,7 @@
         "game": "classic",
         "discord": {
             "enabled": false,
-            "token": "YOUR_DISCORD_BOT_TOKEN",
-            "channelID": "YOUR_CHANNEL_ID",
+             "webookUrl": "https://discord.com/api/webhooks/1234567890/<token>",
             "announcements": {
                 "serverCrash": true,
                 "serverRestart": true,

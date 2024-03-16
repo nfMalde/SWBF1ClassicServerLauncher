@@ -80,7 +80,7 @@ function Send-DiscordMessage($message) {
         return
     }
 
-    $hookUri = "https://discord.com/api/webhooks/$($configFile.launchOptions.discord.channelID)/$($configFile.launchOptions.discord.token)"
+    $hookUri = "$($configFile.launchOptions.discord.webookUrl)"
 
     $params = @{"content" = $message; }
         
