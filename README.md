@@ -163,11 +163,6 @@ This is where you select a name,  profile picture and a target channel for your 
 ### Can I use the launcher for SWBF II Classic?
 Technically yes. But you have to configure it all by yourself including the map translations, folder suffix and the executable name.
 
-### Where do I find the channel ID for my discord bot?
-1. Open `Discord`
-2. Right-click on the channel you want you bot to post in
-3. Select `Copy channel ID`
-
 ### Why the auto restart?
 The server process sometimes freezed and the server was gone due to it even the server windows was fully accsible.
 A restart every 24 Hours solved this issue.
