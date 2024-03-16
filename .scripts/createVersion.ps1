@@ -1,13 +1,9 @@
-$tags = git tag -l
-# Filter tags matching the pattern "vX.Y"
-$filteredTags = $tags -match '^v\d+\.\d+'
-
+ 
 # Sort the filtered tags in version order
-$sortedTags = $filteredTags | Sort-Object { [Version]$_.TrimStart("v") } -Descending
-$highestTag = [Version]"1.0.0"
-if ($sortedTags) {
+$latestTag = git describe --abbrev=0 --tags
+if ($latestTag) {
     # Select the highest tag
-    $highestTag = [Version] $sortedTags[0].TrimStart("v")
+    $highestTag = [Version] $latestTag.TrimStart("v")
     $major, $minor, $rev = "$($highestTag)".Split('.')
 
     if (!$rev) {
