@@ -48,8 +48,7 @@ To install or update the launcher, follow these steps:
         // This configures the discord functionality
         "discord": {
             "enabled": false, // Turns discord integration on/off (true/false)
-            "token": "YOUR_DISCORD_BOT_TOKEN",// The bot token you created on your server (see section below for info how to create it)
-            "channelID": "YOUR_CHANNEL_ID", // the id of the channel the bot should post to
+            "webookUrl": "<url for your webhook>" // See below for more info
             "announcements": {
                 "serverCrash": true, // Tells the bot to post to given channel when server crashs or gets recovered
                 "serverRestart": true, // Tells the bot to post when its auto restarting the server 
@@ -140,13 +139,24 @@ For changes to `launcher.config.json` you need to stop the Server and the launch
 ## Discord Integration
 
 If you want to enable Discord integration, you'll need to create a bot and find the channel ID. Here's how:
+**Important**
+The info here was wrong. Dont create a bot. Instead create a web hook.
 
-1. Create a new bot on the Discord Developer Portal.
-2. Copy the bot token and paste it into the `launcher.config.json` file.
-3. Enable Discord integration in the `launcher.config.json` file.
-4. Find the channel ID of the Discord channel you want to integrate with.
-5. Paste the channel ID into the `launcher.config.json` file.
+### Setting up the webhook
+1. Go to your discord server
+2. Click on the arrow next to the server name (very top)
 
+This dropdown should appear:
+![Dropdown](docs/image01.png)
+
+3. Now click on `Server Setting`
+4. Below `Apps` click on `Integrations`
+5. Now select `Webhooks`
+6. Create your webhook:
+![Webhook Settings](docs/image02.png)
+
+This is where you select a name,  profile picture and a target channel for your "bot".
+7. When done: Click on `Copy Webhook Url` and paste it into the the config value in `launcher.config.json` under launchOptions -> discord -> webookUrl
 
 ## FAQ
 
@@ -165,3 +175,4 @@ A restart every 24 Hours solved this issue.
 ### How to contribute
 You can create pull request for changes you find usefull. If youre not into programming Im more than happy with a small paypal donation. :-) 
 
+ [![Paypal Donate](https://www.paypalobjects.com/en_US/i/btn/btn_donate_LG.gif)](https://www.paypal.com/donate/?hosted_button_id=SVZHLRTQ6H4VL)
