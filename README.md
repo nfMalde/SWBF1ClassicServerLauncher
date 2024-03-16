@@ -84,6 +84,10 @@ To install or update the launcher, follow these steps:
 
 
 ## Usage
+### Head up: Differences between classic and classic-collection
+Keep in mind that the server parameter `/bf1` or `/bf2` (for battlefront II) is __**mandatory**__ for the classic collection.
+That means this should be you very **first** parameter inside your `server.config`
+
 ### Configure your server
 Frst open the `server.config` with a text editor. Adjust it how you like or add parameters as you whish (See steam guides for it).
 Nex lets set up our map pool - this happens in the `maps.config`.
