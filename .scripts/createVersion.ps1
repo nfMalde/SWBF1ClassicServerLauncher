@@ -16,6 +16,4 @@ if ($latestTag) {
     $highestTag = "$($major).$($minor).$($rev)"  
 }
 Write-Output "newversion=$($highestTag)" >> $Env:GITHUB_OUTPUT
- 
-Write-Host "newversion=$($highestTag)" 
 
