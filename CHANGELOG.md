@@ -1,4 +1,8 @@
 ## Changelog
+
+### v1.0.3
+* Fixed installOrUpdate.ps1 for not updating the config correctly.
+
 ### v1.0.2
 * Fixed duplicated discord messages for server recovery
 
