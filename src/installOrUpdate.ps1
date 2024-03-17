@@ -2,6 +2,34 @@ param (
     [Parameter(Mandatory=$false)]
     [string]$targetDirectory
 )
+function Update-JsonProperties($sourceJson, $targetJson, $currentPath = "") {
+
+    $x = $sourceJson | Get-Member -MemberType NoteProperty | Select-Object -ExpandProperty Name
+    $y= $targetJson | Get-Member -MemberType NoteProperty | Select-Object -ExpandProperty Name
+    $keys = $x + $y | Select-Object -Unique
+    Write-Host $keys
+    $keys | ForEach-Object {
+        $key = $_
+        $value = $sourceJson.$key
+        Write-Host "Updating properties $($_)..."
+
+        # Warn is the property is not in the source json JSON
+        if ($null -eq $sourceJson.$key) {
+
+            Write-Warning "Warning: Property $($currentPath).$key seems to be deprecated. Consider removing it from your configuration. It will not longer be used."
+        }
+        if ($null -eq $targetJson.$key) {
+            $targetJson | Add-Member -MemberType NoteProperty -Name $key -Value $value
+        }
+        elseif ($value -is [psobject] -and $targetJson.$key -is [psobject]) {
+            
+            $targetJson.$key = Update-JsonProperties $value $targetJson.$key -currentPath "$currentPath.$key".TrimStart('.')       
+        }
+        
+    }
+    return $targetJson
+}
+
 Write-Host "This will install or update the SWBF Classic (2004) / SWBF Classic Collection"
 
 # Check if the target directory is null, empty, or does not exist
@@ -43,21 +71,16 @@ Write-Host "launcher.ps1 copied to the target directory: $targetDirectory"
 $targetConfigFile = Join-Path -Path $targetDirectory -ChildPath "launcher.config.json"
 if (Test-Path -Path $targetConfigFile) {
     # Read the source and target JSON files
-    $sourceJson = Get-Content -Path "$sourceDirectory\launcher.config.json" -Raw | ConvertFrom-Json
-    $targetJson = Get-Content -Path $targetConfigFile -Raw | ConvertFrom-Json
+    $sourceJson = Get-Content -Path "$sourceDirectory\launcher.config.json" | ConvertFrom-Json -Depth 10
+    $targetJson = Get-Content -Path $targetConfigFile | ConvertFrom-Json -Depth 10
+    
+    Write-Host "Updating launcher config with new properties..."
+    # Update the target JSON with the source JSON properties
+    $updatedJson = Update-JsonProperties -sourceJson $sourceJson -targetJson $targetJson
+    $updatedJson | ConvertTo-Json -Depth 10 | Set-Content $targetConfigFile
 
-    # Add properties from source JSON that don't exist in target JSON
-    $sourceJson.PSObject.Properties | ForEach-Object {
-        $propertyName = $_.Name
-        if (-not $targetJson.PSObject.Properties.Name.Contains($propertyName)) {
-            $targetJson | Add-Member -MemberType NoteProperty -Name $propertyName -Value $_.Value
-        }
-    }
-
-    # Convert the updated target JSON back to string and overwrite the target file
-    $updatedJsonString = $targetJson | ConvertTo-Json -Depth 10
-    $updatedJsonString | Set-Content -Path $targetConfigFile -Force
     Write-Host "launcher.config.json updated in the target directory: $targetDirectory"
+    Write-Information "Your configuration was only updated not changed."
 }
 else {
     # Copy launcher.config.json to the target directory
